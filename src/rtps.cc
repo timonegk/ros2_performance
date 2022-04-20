@@ -44,8 +44,8 @@ int main(int argc, char** argv) {
   std::cout << "FastRTPS create " << create << " nodes @ " << interval.count() << "ms" << std::endl;
 
   ParticipantAttributes participant_att;
-  participant_att.rtps.builtin.domainId = 189;
-  participant_att.rtps.builtin.leaseDuration = c_TimeInfinite;
+  participant_att.domainId = 189;
+  participant_att.rtps.builtin.discovery_config.leaseDuration = c_TimeInfinite;
   participant_att.rtps.setName("Participant_publisher");  // You can put here the name you want
   auto participant = Domain::createParticipant(participant_att);
 

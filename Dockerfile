@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Inform scripts that no questions should be asked
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -32,9 +32,9 @@ RUN sed -e s/return//g -i ~/.bashrc
 RUN curl http://repo.ros2.org/repos.key | sudo apt-key add -
 RUN sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list'
 
-RUN sudo apt-get update -qq && sudo apt-get install -qq --assume-yes --no-install-recommends ros-dashing-desktop python3-argcomplete
+RUN sudo apt-get update -qq && sudo apt-get install -qq --assume-yes --no-install-recommends ros-galactic-desktop python3-argcomplete
 
-RUN echo "source /opt/ros/dashing/setup.bash" >> ~/.bashrc
+RUN echo "source /opt/ros/galactic/setup.bash" >> ~/.bashrc
 
 RUN sudo apt-get update -qq && sudo apt-get install -qq --assume-yes --no-install-recommends \
   build-essential \
@@ -77,9 +77,9 @@ RUN sudo chown -R noblean /home/noblean/ros2_performance
 
 RUN cd ros2_performance/ && sudo rosdep init
 RUN rosdep update
-RUN cd ros2_performance/ && rosdep install --from-paths src --ignore-src --rosdistro dashing -y --skip-keys "console_bridge fastcdr fastrtps libopensplice67 libopensplice69 rti-connext-dds-5.3.1 urdfdom_headers"
+RUN cd ros2_performance/ && rosdep install --from-paths src --ignore-src --rosdistro galactic -y --skip-keys "console_bridge fastcdr fastrtps libopensplice67 libopensplice69 rti-connext-dds-5.3.1 urdfdom_headers"
 
-RUN bash -c 'cd ros2_performance/ && source /opt/ros/dashing/setup.bash && colcon build --symlink-install'
+RUN bash -c 'cd ros2_performance/ && source /opt/ros/galactic/setup.bash && colcon build --symlink-install'
 
 # Entrypoint setup
 COPY ./ros_entrypoint.sh /
